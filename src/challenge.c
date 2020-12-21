@@ -122,5 +122,6 @@ void challenge_run() {
 			TLVReceive.uDatapointer = 0;
 			//console_print("This is challenge callback function\n");
 		}
+		vTaskDelay(1);
 	}
 }
