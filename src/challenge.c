@@ -1,6 +1,7 @@
 #include <FreeRTOS.h>
 #include <task.h>
 #include <console.h>
+#include <stdlib.h>
 #include "challenge.h"
 
 #define MAX_BUFFER_SIZE 16
