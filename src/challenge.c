@@ -90,11 +90,13 @@ void challenge_run() {
 	for (;;) {
 		if (TLVReceive.uHeader == EMPTY) {
 			TLVSend = TLVReceive;
+			console_print("This is empty callback function\n");
 		}
 		if (TLVReceive.uHeader == ADD) {
 			challenge_add();
 			console_print("%u + %u = %u\n", TLVReceive.uMessage[0] << 8 + TLVReceive.uMessage[1], TLVReceive.uMessage[2] << 8 + TLVReceive.uMessage[3],
 				TLVSend.uMessage[0] << 8 + TLVSend.uMessage[1]);
+			console_print("This is add callback function\n");
 		}
 		if (TLVReceive.uHeader == DELAY) {
 			challenge_delay();
