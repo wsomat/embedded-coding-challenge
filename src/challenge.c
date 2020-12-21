@@ -33,8 +33,8 @@ void receive_ISR(uint8_t data) {
 		TLVReceive.uDatalength++;
 	}
 	if (TLVReceive.uHeader == EMPTY) receiveGuard = 0;
-	if (TLVReceive.uHeader == ADD && TLVReceive.uDatalength == 5) receiveGuard = 0;
-	if (TLVReceive.uHeader == DELAY && TLVReceive.uDatalength == 4) receiveGuard = 0;
+	if (TLVReceive.uHeader == ADD && TLVReceive.uDatalength >= 5) receiveGuard = 0;
+	if (TLVReceive.uHeader == DELAY && TLVReceive.uDatalength >= 4) receiveGuard = 0;
 	if (TLVReceive.uHeader == LOG && TLVReceive.uDatalength > 6) receiveGuard = 0;
 }
 
