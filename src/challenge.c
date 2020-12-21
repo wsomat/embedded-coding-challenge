@@ -95,7 +95,6 @@ void challenge_run() {
     // TODO: insert awesome stuff here
 	for (;;) {
 		if (TLVReceive.uDatalength != 0 && receiveGuard == 0) {
-			vTaskDelay(10);
 			if (TLVReceive.uHeader == EMPTY) {
 				TLVSend = TLVReceive;
 				TLVSend.uDatalength = 1;
