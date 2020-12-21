@@ -37,7 +37,7 @@ void receive_ISR(uint8_t data) {
 	else if (TLVReceive.uHeader == ADD && TLVReceive.uDatalength > 3) receiveGuard = 0;
 	else if (TLVReceive.uHeader == DELAY && TLVReceive.uDatalength > 2) receiveGuard = 0;
 	else if (TLVReceive.uHeader == LOG && TLVReceive.uDatalength > 6) receiveGuard = 0;
-	else if (TLVReceive.uDatalength > 6) receiveGuard = 0;
+	else if (TLVReceive.uDatalength > 8) receiveGuard = 0;
 }
 
 void TLVMessage_init(TLVMessage_t* TLVMessage) {
@@ -114,8 +114,8 @@ void challenge_run() {
 				challenge_log();
 				//console_print("This is log callback function\n");
 			}
-			uint8_t* tx=malloc(16);
-			memcpy(tx,(uint8_t*)&TLVSend,16);
+			uint8_t* tx=malloc(MAX_BUFFER_SIZE);
+			memcpy(tx,(uint8_t*)&TLVSend, MAX_BUFFER_SIZE);
 			console_print("%s \n", tx);
 			send(tx, TLVSend.uDatalength);
 			TLVReceive.uDatalength = 0;
