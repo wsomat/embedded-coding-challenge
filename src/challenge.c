@@ -88,25 +88,30 @@ void challenge_log() {
 void challenge_run() {
     // TODO: insert awesome stuff here
 	for (;;) {
-		if (TLVReceive.uHeader == EMPTY) {
-			TLVSend = TLVReceive;
-			console_print("This is empty callback function\n");
+		if (TLVReceive.uDatalength != 0) {
+			if (TLVReceive.uHeader == EMPTY) {
+				TLVSend = TLVReceive;
+				TLVSend.uDatalength = 1;
+				console_print("This is empty callback function\n");
+			}
+			if (TLVReceive.uHeader == ADD) {
+				challenge_add();
+				console_print("%u + %u = %u\n", TLVReceive.uMessage[0] << 8 + TLVReceive.uMessage[1], TLVReceive.uMessage[2] << 8 + TLVReceive.uMessage[3],
+					TLVSend.uMessage[0] << 8 + TLVSend.uMessage[1]);
+				console_print("This is add callback function\n");
+			}
+			if (TLVReceive.uHeader == DELAY) {
+				challenge_delay();
+			}
+			if (TLVReceive.uHeader == LOG) {
+				challenge_log;
+			}
+			uint8_t tx[] = { TLVSend.uHeader, TLVSend.uMessage[0], TLVSend.uMessage[1] };
+			send(tx, TLVSend.uDatalength);
+			TLVReceive.uDatalength = 0;
+			TLVReceive.uDatapointer = 0;
+			console_print("This is challenge callback function\n");
 		}
-		if (TLVReceive.uHeader == ADD) {
-			challenge_add();
-			console_print("%u + %u = %u\n", TLVReceive.uMessage[0] << 8 + TLVReceive.uMessage[1], TLVReceive.uMessage[2] << 8 + TLVReceive.uMessage[3],
-				TLVSend.uMessage[0] << 8 + TLVSend.uMessage[1]);
-			console_print("This is add callback function\n");
-		}
-		if (TLVReceive.uHeader == DELAY) {
-			challenge_delay();
-		}
-		if (TLVReceive.uHeader == LOG) {
-			challenge_log;
-		}
-		uint8_t tx[]= { TLVSend.uHeader, TLVSend.uMessage[0], TLVSend.uMessage[1]};
-		send(tx, TLVSend.uDatalength);
-		console_print("This is challenge callback function\n");
 		vTaskDelay(100);
 	}
 }
