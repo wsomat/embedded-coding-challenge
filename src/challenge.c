@@ -102,5 +102,6 @@ void challenge_run() {
 			challenge_log;
 		}
 		send((uint8_t*)&TLVSend, TLVSend.uDatalength);
+		vTaskDelay(100);
 	}
 }
