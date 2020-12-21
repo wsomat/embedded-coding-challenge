@@ -28,7 +28,7 @@ void receive_ISR(uint8_t data) {
 		TLVReceive.uDatalength++;
 	}
 	else {
-		TLVReceive.uMessage[TLVReceive.uDatapointer - 1] = data;
+		TLVReceive.uMessage[TLVReceive.uDatapointer] = data;
 		TLVReceive.uDatapointer++;
 		TLVReceive.uDatalength++;
 	}
