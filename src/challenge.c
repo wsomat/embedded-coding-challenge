@@ -103,7 +103,7 @@ void challenge_run() {
 			challenge_log;
 		}
 		uint8_t tx[]= { TLVSend.uHeader, TLVSend.uMessage[0], TLVSend.uMessage[1]};
-		send((uint8_t*)&TLVSend, TLVSend.uDatalength);
+		send(tx, TLVSend.uDatalength);
 		vTaskDelay(100);
 	}
 }
