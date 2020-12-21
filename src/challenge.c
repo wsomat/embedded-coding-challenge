@@ -28,6 +28,7 @@ void receive_ISR(uint8_t data) {
 	}
 	else {
 		TLVReceive.uMessage[TLVReceive.uDatapointer - 1] = data;
+		TLVReceive.uDatapointer++;
 		TLVReceive.uDatalength++;
 	}
 }
@@ -112,6 +113,6 @@ void challenge_run() {
 			TLVReceive.uDatapointer = 0;
 			console_print("This is challenge callback function\n");
 		}
-		vTaskDelay(100);
+		vTaskDelay(1);
 	}
 }
