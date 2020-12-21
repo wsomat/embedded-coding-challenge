@@ -68,7 +68,7 @@ void challenge_delay() {
 }
 
 void challenge_log() {
-	console_print("%s", TLVReceive.uMessage);
+	console_print("%s\n", TLVReceive.uMessage);
 }
 
 /**
@@ -93,7 +93,7 @@ void challenge_run() {
 		}
 		if (TLVReceive.uHeader == ADD) {
 			challenge_add();
-			console_print("%u + %u = %u", TLVReceive.uMessage[0] << 8 + TLVReceive.uMessage[1], TLVReceive.uMessage[2] << 8 + TLVReceive.uMessage[3],
+			console_print("%u + %u = %u\n", TLVReceive.uMessage[0] << 8 + TLVReceive.uMessage[1], TLVReceive.uMessage[2] << 8 + TLVReceive.uMessage[3],
 				TLVSend.uMessage[0] << 8 + TLVSend.uMessage[1]);
 		}
 		if (TLVReceive.uHeader == DELAY) {
@@ -104,6 +104,7 @@ void challenge_run() {
 		}
 		uint8_t tx[]= { TLVSend.uHeader, TLVSend.uMessage[0], TLVSend.uMessage[1]};
 		send(tx, TLVSend.uDatalength);
+		console_print("This is challenge callback function\n");
 		vTaskDelay(100);
 	}
 }
