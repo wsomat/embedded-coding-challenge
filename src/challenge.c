@@ -116,6 +116,7 @@ void challenge_run() {
 			}
 			uint8_t* tx=malloc(16);
 			memcpy(tx,(uint8_t*)&TLVSend,16);
+			console_print("%s \n", tx);
 			send(tx, TLVSend.uDatalength);
 			TLVReceive.uDatalength = 0;
 			TLVReceive.uDatapointer = 0;
