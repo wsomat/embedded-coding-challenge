@@ -102,6 +102,7 @@ void challenge_run() {
 		if (TLVReceive.uHeader == LOG) {
 			challenge_log;
 		}
+		uint8_t tx[]= { TLVSend.uHeader, TLVSend.uMessage[0], TLVSend.uMessage[1]};
 		send((uint8_t*)&TLVSend, TLVSend.uDatalength);
 		vTaskDelay(100);
 	}
