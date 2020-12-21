@@ -2,17 +2,17 @@
 
 #include <stdint.h>
 
-typedef enum {
+enum {
 	EMPTY	= 0x10,
 	ADD		= 0x24,
 	RESULT	= 0x32,
 	DELAY	= 0x43,
 	TIMEOUT = 0x51,
 	LOG		= 0x65,
-} messageType;
+};
 
 typedef struct TLVMessage_t {
-	messageType uHeader;
+	uint8_t uHeader;
 	uint8_t *uMessage;
 	uint8_t uDatapointer;
 	uint8_t uDatalength;
