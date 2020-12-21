@@ -8,6 +8,7 @@
 
 TLVMessage_t TLVReceive;
 TLVMessage_t TLVSend;
+uint8_t receiveGuard = 0;
 
 /**
  * Call this to "send" data over the (simulated) serial interface.
@@ -21,9 +22,9 @@ void send(uint8_t* message, uint32_t length);
  * @param data received byte
  */
 void receive_ISR(uint8_t data) {
-	if (TLVReceive.uDatapointer == 0) {
+	receiveGuard = 1;
+	if (TLVReceive.uDatalength == 0) {
 		TLVReceive.uHeader = data;
-		TLVReceive.uDatapointer++;
 		TLVReceive.uDatalength++;
 	}
 	else {
@@ -31,6 +32,7 @@ void receive_ISR(uint8_t data) {
 		TLVReceive.uDatapointer++;
 		TLVReceive.uDatalength++;
 	}
+	receiveGuard = 0;
 }
 
 void TLVMessage_init(TLVMessage_t* TLVMessage) {
@@ -89,14 +91,14 @@ void challenge_log() {
 void challenge_run() {
     // TODO: insert awesome stuff here
 	for (;;) {
-		if (TLVReceive.uDatalength != 0) {
+		if (TLVReceive.uDatalength != 0 && receiveGuard == 0) {
 			vTaskDelay(10);
 			if (TLVReceive.uHeader == EMPTY) {
 				TLVSend = TLVReceive;
 				TLVSend.uDatalength = 1;
 				console_print("This is empty callback function\n");
 			}
-			if (TLVReceive.uHeader == ADD) {
+			if (TLVReceive.uHeader == ADD && TLVReceive.uDatalength >= 4) {
 				challenge_add();
 				console_print("%u + %u = %u\n", TLVReceive.uMessage[0] << 8 + TLVReceive.uMessage[1], TLVReceive.uMessage[2] << 8 + TLVReceive.uMessage[3],
 					TLVSend.uMessage[0] << 8 + TLVSend.uMessage[1]);
