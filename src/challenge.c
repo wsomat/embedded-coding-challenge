@@ -32,7 +32,10 @@ void receive_ISR(uint8_t data) {
 		TLVReceive.uDatapointer++;
 		TLVReceive.uDatalength++;
 	}
-	receiveGuard = 0;
+	if (TLVReceive.uHeader == EMPTY) receiveGuard = 0;
+	if (TLVReceive.uHeader == ADD && TLVReceive.uDatalength == 5) receiveGuard = 0;
+	if (TLVReceive.uHeader == DELAY && TLVReceive.uDatalength == 4) receiveGuard = 0;
+	if (TLVReceive.uHeader == LOG && TLVReceive.uDatalength > 6) receiveGuard = 0;
 }
 
 void TLVMessage_init(TLVMessage_t* TLVMessage) {
@@ -106,7 +109,7 @@ void challenge_run() {
 				challenge_delay();
 				console_print("This is delay callback function\n");
 			}
-			if (TLVReceive.uHeader == LOG) {
+			if (TLVReceive.uHeader >= LOG) {
 				challenge_log();
 				console_print("This is log callback function\n");
 			}
