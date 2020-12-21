@@ -57,15 +57,15 @@ void challenge_add() {
 
 void challenge_delay() {
 	TickType_t ms_begin = xTaskGetTickCount();
-	TickType_t ms_now = ms_begin;
+	uint16_t time_elapsed = 0;
 	uint16_t delay = TLVReceive.uMessage[0] << 8 + TLVReceive.uMessage[1];
+	console_print("Delay = %u ms\n", delay);
 	TLVSend.uHeader = TIMEOUT;
 	TLVSend.uMessage[0] = TLVReceive.uMessage[2];
 	TLVSend.uDatalength = 2;
-	while (ms_begin - ms_now <= delay) {
-		ms_now = xTaskGetTickCount();
+	while (time_elapsed <= delay) {
+		time_elapsed = ms_begin - xTaskGetTickCount();
 	}
-	send((uint8_t*)&TLVSend, TLVSend.uDatalength);
 }
 
 void challenge_log() {
