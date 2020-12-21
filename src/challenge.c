@@ -102,22 +102,22 @@ void challenge_run() {
 			}
 			if (TLVReceive.uHeader == ADD && TLVReceive.uDatalength >= 4) {
 				challenge_add();
-				console_print("%u + %u = %u\n", TLVReceive.uMessage[0] << 8 + TLVReceive.uMessage[1], TLVReceive.uMessage[2] << 8 + TLVReceive.uMessage[3],
-					TLVSend.uMessage[0] << 8 + TLVSend.uMessage[1]);
+				//console_print("%u + %u = %u\n", TLVReceive.uMessage[0] << 8 + TLVReceive.uMessage[1], TLVReceive.uMessage[2] << 8 + TLVReceive.uMessage[3],
+					//TLVSend.uMessage[0] << 8 + TLVSend.uMessage[1]);
 			}
 			if (TLVReceive.uHeader == DELAY) {
 				challenge_delay();
-				console_print("This is delay callback function\n");
+				//console_print("This is delay callback function\n");
 			}
 			if (TLVReceive.uHeader >= LOG) {
 				challenge_log();
-				console_print("This is log callback function\n");
+				//console_print("This is log callback function\n");
 			}
 			uint8_t tx[] = { TLVSend.uHeader, TLVSend.uMessage[0], TLVSend.uMessage[1] };
 			send(tx, TLVSend.uDatalength);
 			TLVReceive.uDatalength = 0;
 			TLVReceive.uDatapointer = 0;
-			console_print("This is challenge callback function\n");
+			//console_print("This is challenge callback function\n");
 		}
 	}
 }
