@@ -2,6 +2,7 @@
 #include <task.h>
 #include <console.h>
 #include <stdlib.h>
+#include <string.h>
 #include "challenge.h"
 
 #define MAX_BUFFER_SIZE 16
@@ -65,7 +66,7 @@ void challenge_delay() {
 	TickType_t ms_begin = xTaskGetTickCount();
 	uint16_t time_elapsed = 0;
 	uint16_t delay = TLVReceive.uMessage[0] << 8 + TLVReceive.uMessage[1];
-	console_print("Delay = %u ms\n", delay);
+	//console_print("Delay = %u ms\n", delay);
 	TLVSend.uHeader = TIMEOUT;
 	TLVSend.uMessage[0] = TLVReceive.uMessage[2];
 	TLVSend.uDatalength = 2;
@@ -75,7 +76,7 @@ void challenge_delay() {
 }
 
 void challenge_log() {
-	console_print("%s\n", TLVReceive.uMessage);
+	//console_print("%s\n", TLVReceive.uMessage);
 }
 
 /**
@@ -113,7 +114,8 @@ void challenge_run() {
 				challenge_log();
 				//console_print("This is log callback function\n");
 			}
-			uint8_t tx[] = { TLVSend.uHeader, TLVSend.uMessage[0], TLVSend.uMessage[1] };
+			uint8_t* tx=malloc(16);
+			memcpy(tx,(uint8_t*)&TLVSend,16);
 			send(tx, TLVSend.uDatalength);
 			TLVReceive.uDatalength = 0;
 			TLVReceive.uDatapointer = 0;
